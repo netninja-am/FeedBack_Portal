@@ -27,31 +27,72 @@ class LoginWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("College Feedback - Login")
-        self.setGeometry(100, 100, 300, 200)
+        self.setGeometry(100, 100, 350, 300)
         self.users = load_users()
         self.initUI()
+        self.applyStyle()
 
     def initUI(self):
         layout = QVBoxLayout()
 
-        layout.addWidget(QLabel("Username:"))
+        title = QLabel("🎓 Welcome to College Feedback")
+        title.setAlignment(Qt.AlignCenter)
+        title.setFont(QFont("Segoe UI", 16, QFont.Bold))
+        layout.addWidget(title)
+
+        layout.addSpacing(10)
+
+        user_label = QLabel("👤 Username")
+        user_label.setFont(QFont("Segoe UI", 11))
+        layout.addWidget(user_label)
+
         self.username_input = QLineEdit()
         layout.addWidget(self.username_input)
 
-        layout.addWidget(QLabel("Password:"))
+        pass_label = QLabel("🔐 Password")
+        pass_label.setFont(QFont("Segoe UI", 11))
+        layout.addWidget(pass_label)
+
         self.password_input = QLineEdit()
         self.password_input.setEchoMode(QLineEdit.Password)
         layout.addWidget(self.password_input)
 
-        login_btn = QPushButton("Login")
+        login_btn = QPushButton("🔓 Login")
         login_btn.clicked.connect(self.login)
         layout.addWidget(login_btn)
 
-        signup_btn = QPushButton("Sign Up")
+        signup_btn = QPushButton("📝 Sign Up")
         signup_btn.clicked.connect(self.signup)
         layout.addWidget(signup_btn)
 
+        layout.addStretch()
         self.setLayout(layout)
+
+    def applyStyle(self):
+        self.setStyleSheet("""
+            QWidget {
+                background-color: #ffe0b2;
+                font-family: 'Segoe UI';
+                font-size: 13px;
+            }
+            QLineEdit {
+                background-color: #fff3e0;
+                border: 2px solid #ff9800;
+                border-radius: 8px;
+                padding: 6px;
+            }
+            QPushButton {
+                background-color: #ff7043;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                padding: 8px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: #f4511e;
+            }
+        """)
 
     def login(self):
         username = self.username_input.text()
@@ -72,6 +113,7 @@ class LoginWindow(QWidget):
             self.users[username] = password
             save_users(self.users)
             QMessageBox.information(self, "Signup Success", "Account created! You can log in now.")
+
 
 class Particle:
     def __init__(self, x, y):
